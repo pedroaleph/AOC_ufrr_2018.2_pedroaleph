@@ -46,7 +46,7 @@ int main()
     int a, bin_a[4]; // numero multiplicador
     int x, bin_x[4]; // numero mutiplicado
     int c = 0; //numero comparador
-    int i, count = 0;
+    int i, count = 0;// 'i' para funcao for, e count para percorrecer o vetor
     int bin_r[8]; // resultado
     int temp[4]; // vetor negativo de a
 
@@ -54,11 +54,13 @@ int main()
     for(i = 0 ; i < 8; i++){
         bin_r[i] = 0;
     }
-
+	//leitura das variáveis
     scanf("%d %d",&a,&x);
+	//colocando as em vetores cada unidade para utiliza las de forma correta
     conversor(a,bin_a);
     conversor(x,bin_x);
-
+	
+	// transformando o multiplicador em negativo que sera utilizado
     for(i = 7; i >= 0  ; i--){
 
         if (i > 3){
@@ -77,19 +79,30 @@ int main()
             }
         }
     }
-
+	
+	// o resultado deve receber o numero multiplicado para realizar a operacao
     for (i = 0; i < 4 ; i++){
         bin_r[i+4] = bin_x[i];
     }
 
-
+	// a partir do count gerando um loop 4x, irá acontecer a operacao que consiste em comparaçao, soma e deslocamento;
+	/*'c' irá comparar o ditito menos sisgnificativo para determinar uma tomada de decisao,
+	-- caso 'c' seja 1 e o digito seja 0, ocorrera somente uma soma envolvendo os quatro primeiros vetores do resultado
+	-- com o multiplicador, caso contrario, a soma o ocorrera com o negativo deste ultimo com o resultado,
+	-- caso na comparacao os valores sejam iguais, somente proceguiremos para a proxima etapa,
+	-- apos isso ocrrera um deslocamento de bits a direita (com o digito menos significativo, substituindo o valor de 'c')
+	-- exceto o primeiro digito que representa o sinal do resultado
+	*/
     while(4>count++){
         if(bin_r[7] != c){
+			// condicao para qual soma ocorrera
             if(c == 0) soma_bin(bin_r, temp);
             else soma_bin(bin_r, bin_a);
         }
+		//funcao para o deslocamento
         shift(bin_r, &c);
     }
+	//print do resultado
     for(i = 0; i < 8; i++){
         printf("%d",bin_r[i]);
     }
